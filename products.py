@@ -1,19 +1,16 @@
 class Product:
 
     def __init__(self, name, price, quantity):
-        try:
-            if not name:
-                raise ValueError("Invalid name, name cannot be empty")
-            if price < 0:
-                raise ValueError("Price cannot be less than 0")
-            if quantity < 0:
-                raise ValueError("Invalid quantity, quantity cannot be negative.")
-            self.name = name
-            self.price = float(price)
-            self.quantity = int(quantity)
-            self.active = True
-        except ValueError as value_error:
-            print(f"Error creating product: {value_error}")
+        if not name:
+            raise ValueError("Invalid name, name cannot be empty")
+        if price < 0:
+            raise ValueError("Price cannot be less than 0")
+        if quantity < 0:
+            raise ValueError("Invalid quantity, quantity cannot be negative.")
+        self.name = name
+        self.price = float(price)
+        self.quantity = int(quantity)
+        self.active = True
 
     def get_quantity(self) -> float:
         return self.quantity
