@@ -38,6 +38,8 @@ class Product:
             raise ValueError("Invalid quantity")
         total_price = quantity * self.price
         self.quantity -= quantity
+        if self.quantity == 0:
+            self.deactivate_self()
         return total_price
 
 
