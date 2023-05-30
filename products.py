@@ -11,6 +11,7 @@ class Product:
         self.price = float(price)
         self.quantity = int(quantity)
         self.active = True
+        self.promotion = None
 
     def get_quantity(self) -> float:
         return self.quantity
@@ -36,11 +37,24 @@ class Product:
     def buy(self, quantity) -> float:
         if quantity <= 0 or quantity > self.quantity:
             raise ValueError("Invalid quantity")
-        total_price = quantity * self.price
+
+        total_price = self.calculate_total(quantity)
         self.quantity -= quantity
         if self.quantity == 0:
             self.deactivate_self()
         return total_price
+
+    def calculate_total(self, quantity):
+        total_price = 0
+        if self.promotion is None:
+            total_price = quantity * self.price
+        else:
+            total_price = self.promotion.apply_promotion(self, quantity)
+
+        return total_price
+
+    def set_promotion(self, promotion):
+        self.promotion = promotion
 
 
 class LimitedProduct(Product):
@@ -71,5 +85,5 @@ class NonStockProduct(Product):
     def buy(self, quantity) -> float:
         if quantity <= 0:
             raise ValueError("Invalid quantity")
-        total_price = quantity * self.price
+        total_price = self.calculate_total(quantity)
         return total_price
