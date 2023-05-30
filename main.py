@@ -50,6 +50,7 @@ def make_an_order(list_of_products):
     print(f"_________\nWhen you want to finish your order, please "
           f"enter empty text.")
     user_choice = "."
+    shipping = False
     while user_choice != "":
         user_choice = input("Which product # do you want? ")
         if user_choice == "":
@@ -61,11 +62,21 @@ def make_an_order(list_of_products):
         except ValueError:
             print("Invalid input! Please enter a valid product number.")
             continue
-        quantity = int(input("What quantity would you like? "))
-        product = list_of_products[user_choice]  # Get the selected product
-        shopping_list.append((product, quantity))
-        print(shopping_list)
-        print("Product added to list!\n")
+        product = list_of_products[user_choice]
+        if product == list_of_products[4]:
+
+            if not shipping:
+                shopping_list.append((product, product.maximum))
+                shipping = True
+                print(f"{product.name} Product added to list!\n")
+            else:
+                print("Maximum for this product is 1. You already have this item on your list.")
+        else:
+            quantity = int(input("What quantity would you like? "))
+            shopping_list.append((product, quantity))
+            for item in shopping_list:
+                print(f"{item[0].name}, quantity: {item[1]}")
+            print("Product added to list!\n")
 
 
 def main():
