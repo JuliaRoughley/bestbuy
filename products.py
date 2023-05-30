@@ -43,3 +43,33 @@ class Product:
         return total_price
 
 
+class LimitedProduct(Product):
+    def __init__(self, name, price, quantity, maximum):
+        super().__init__(name, price, quantity)
+        self.maximum = maximum
+
+    def buy(self, quantity):
+        if quantity <= 0 or quantity > self.quantity or quantity > self.maximum:
+            raise ValueError("Invalid quantity")
+        total_price = super().buy(quantity)
+        return total_price
+
+    def show(self):
+        return f"{super().show()}, Limited Stock Product, Maximum: {self.maximum}"
+
+
+class NonStockProduct(Product):
+    def __init__(self, name, price):
+        super().__init__(name, price, quantity=0)
+
+    def set_quantity(self, quantity):
+        raise AttributeError("Cannot change the quantity of non-physical product.")
+
+    def show(self):
+        return f"{super().show()}, Non-Stocked Product"
+
+    def buy(self, quantity) -> float:
+        if quantity <= 0:
+            raise ValueError("Invalid quantity")
+        total_price = quantity * self.price
+        return total_price

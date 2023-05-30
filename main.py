@@ -1,11 +1,12 @@
-import store
 from store import Store
-from products import Product
+import products
 
 # setup initial stock of inventory
-product_list = [Product("MacBook Air M2", price=1450, quantity=100),
-                Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                Product("Google Pixel 7", price=500, quantity=250)
+product_list = [products.Product("MacBook Air M2", price=1450, quantity=100),
+                products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+                products.Product("Google Pixel 7", price=500, quantity=250),
+                products.NonStockProduct("Windows License", price=125),
+                products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
                 ]
 best_buy = Store(product_list)
 
@@ -13,7 +14,8 @@ best_buy = Store(product_list)
 def start(store_object):
     """Shows user the menu of options of actions, asks for their choice, and performs the chosen function"""
     while True:
-        print("""Store Menu\n   __________\n1. List all products in store\n2. Show total amount in store\n3. Make an order\n4. Quit""")
+        print(
+            """Store Menu\n   __________\n1. List all products in store\n2. Show total amount in store\n3. Make an order\n4. Quit""")
         user_choice = input("Please enter your choice 1-4: ")
         if user_choice == '4':
             break  # Exit the loop and end the program
@@ -61,9 +63,8 @@ def make_an_order(list_of_products):
             continue
         quantity = int(input("What quantity would you like? "))
         product = list_of_products[user_choice]  # Get the selected product
-        for _ in range(quantity):
-            shopping_list.append((product, quantity))
-            print(shopping_list)
+        shopping_list.append((product, quantity))
+        print(shopping_list)
         print("Product added to list!\n")
 
 
